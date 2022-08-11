@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("zhjwang","first test");  //右小角的按钮
                 Intent intent = new Intent(MainActivity.this,MyService.class);
             //    startService(intent);
                 bindService(intent, new ServiceConnection() {
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("zhjwang","second test");  //左下角按钮
                 Intent intent = new Intent(MainActivity.this,MessengerService.class);
                 Log.i("test","MessengerService  onClick ");
                 bindService(intent, new ServiceConnection() {
