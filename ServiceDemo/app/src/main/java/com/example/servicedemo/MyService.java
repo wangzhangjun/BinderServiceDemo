@@ -2,10 +2,14 @@ package com.example.servicedemo;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 import android.os.Handler;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 
 public class MyService extends Service {
     Handler handler = new Handler();
@@ -20,6 +24,39 @@ public class MyService extends Service {
     IStudentInterface.Stub mBinder = new IStudentInterface.Stub() {
         @Override
         public int getStudentId(String name) throws RemoteException {
+            //testService2
+            Intent intent2 = new Intent(MyService.this, MyService2.class);
+            bindService(intent2, new ServiceConnection() {
+                @Override
+                public void onServiceConnected(ComponentName name, IBinder service) {
+                    Log.i("zhjwang", "service2");
+                    IStudentInterface2 remoteInterface2 = IStudentInterface2.Stub.asInterface(service);
+                    try {
+                        service.linkToDeath(new IBinder.DeathRecipient() {
+                            @Override
+                            public void binderDied() {
+                                Log.i("zhjwang"," MyService2 Died");
+                                if (mCallBack!= null) {
+                                    try {
+                                        mCallBack.changeData(123);
+                                    } catch (RemoteException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }, 0);
+                        Log.i("zhjwang","serviceAsClient onServiceConnected remoteInterface getStudentId2 = " + remoteInterface2.getStudentId2("helloworld"));
+                        remoteInterface2.getStudentId2("dead2"); //触发service2 crash看上面的MyService2 Died会不会执行
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                }
+                @Override
+                public void onServiceDisconnected(ComponentName name) {
+
+                }
+            }, BIND_AUTO_CREATE);
+            //testService2
             if (name.equals( "helloworld")) {
                 if (mCallBack!= null) {
                     Log.i("test"," mCallBack changeData result = " + mCallBack.changeData(1111));

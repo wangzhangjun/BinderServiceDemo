@@ -25,6 +25,11 @@
             android:process=":myservice"
             android:exported="true"></service>
         <service
+            android:name=".MyService2"
+            android:enabled="true"
+            android:process=":myservice2"
+            android:exported="true"></service>
+        <service
             android:name=".MessengerService"
             android:enabled="true"
             android:process=":messenger"

@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 bindService(intent, new ServiceConnection() {
                     @Override
                     public void onServiceConnected(ComponentName name, IBinder service) {
+                        Log.i("zhjwang", "service1");
                         IStudentInterface remoteInterface = IStudentInterface.Stub.asInterface(service);
                         try {
                             service.linkToDeath(new IBinder.DeathRecipient() {
@@ -57,14 +58,14 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             },0);
                             remoteInterface.setCallback(new CallbackeService());
-                            Log.i("test","client onServiceConnected remoteInterface getStudentId = " + remoteInterface.getStudentId("helloworld"));
-                            Log.i("test","client onServiceConnected remoteInterface getStudentId = " + remoteInterface.getStudentId("no"));
-                            remoteInterface.getStudentId("dead");  //发送消息，让service dead
+                            Log.i("zhjwang","clientActivity onServiceConnected remoteInterface getStudentId = " + remoteInterface.getStudentId("helloworld"));
+                            Log.i("zhjwang","clientActivity onServiceConnected remoteInterface getStudentId = " + remoteInterface.getStudentId("no"));
+                            //remoteInterface.getStudentId("dead");  //发送消息，让service dead
                             /***************************************************************/
                             StudentInfo studentInfoIn = new StudentInfo();
                             studentInfoIn.setId("200");
                             studentInfoIn.setName("client");
-                            Log.i("test","client onServiceConnected remoteInterface getConvertName = " +remoteInterface.getConvertName(studentInfoIn ) + " studentInfoIn = " + studentInfoIn);
+                            Log.i("test","clientActivity onServiceConnected remoteInterface getConvertName = " +remoteInterface.getConvertName(studentInfoIn ) + " studentInfoIn = " + studentInfoIn);
                             /***************************************************************/
                             StudentInfo studentInfoOut = new StudentInfo();
                             studentInfoOut.setId("200+");
@@ -143,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
     class CallbackeService extends IChangeCallback.Stub {
         @Override
         public int changeData(int changeIndex) throws RemoteException {
+            Log.i("zhjwang","changedata:" + changeIndex);
             return  changeIndex + 1;
         }
     }
