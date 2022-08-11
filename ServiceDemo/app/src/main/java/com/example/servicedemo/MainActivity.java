@@ -48,15 +48,21 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.i("zhjwang","first test");  //右小角的按钮
                 Intent intent = new Intent(MainActivity.this,MyService.class);
-            //    startService(intent);
                 bindService(intent, new ServiceConnection() {
                     @Override
                     public void onServiceConnected(ComponentName name, IBinder service) {
                         IStudentInterface remoteInterface = IStudentInterface.Stub.asInterface(service);
                         try {
+                            service.linkToDeath(new IBinder.DeathRecipient() {
+                                @Override
+                                public void binderDied() {
+                                    Log.i("zhjwang"," MyService Died");
+                                }
+                            },0);
                             remoteInterface.setCallback(new CallbackeService());
                             Log.i("test","client onServiceConnected remoteInterface getStudentId = " + remoteInterface.getStudentId("helloworld"));
                             Log.i("test","client onServiceConnected remoteInterface getStudentId = " + remoteInterface.getStudentId("no"));
+                            remoteInterface.getStudentId("dead");  //发送消息，让service dead
                             /***************************************************************/
                             StudentInfo studentInfoIn = new StudentInfo();
                             studentInfoIn.setId("200");
@@ -120,17 +126,13 @@ public class MainActivity extends AppCompatActivity {
         Message toServer = Message.obtain();
         toServer.replyTo = messengerClientSend;
         toServer.what = 1;
-        //toServer.obj = "hello I send from client"; 注意不可以 传递非parcel的对象，这个只能给obj赋值为parcel类型对象否则报错
         Bundle bundle = new Bundle();
         bundle.putString("bundleKey","bundleValue Client");
         toServer.setData(bundle);
         messengerServer.send(toServer);
     }
 
-
-
     class CallbackeService extends IChangeCallback.Stub {
-
         @Override
         public int changeData(int changeIndex) throws RemoteException {
             return  changeIndex + 1;

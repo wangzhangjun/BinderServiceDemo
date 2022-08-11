@@ -5,12 +5,12 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
-
+import android.os.Handler;
 
 public class MyService extends Service {
+    Handler handler = new Handler();
     public MyService() {
     }
-
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
@@ -26,6 +26,15 @@ public class MyService extends Service {
                     Log.i("test"," mCallBack changeData result = " + mCallBack.changeData(1111));
                 }
                 return 1;
+            }else if(name.equals("dead")){
+                handler.postDelayed(new Runnable() {  //这里要放到一个Runnable里面，要不然这个错误会返回到客户端，导致客户端crash
+                    @Override
+                    public void run() {
+                    String str = null;
+                    str.length();
+                    }
+                },100);
+                return -1;
             } else {
                 return  10;
             }
