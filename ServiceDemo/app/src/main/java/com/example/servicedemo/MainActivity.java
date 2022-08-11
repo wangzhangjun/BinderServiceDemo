@@ -99,6 +99,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.i("zhjwang","second test");  //左下角按钮
+                if (true) { //模拟客户端的crash，要先点击右下角设置callback，再点击左下角执行这里crash
+                    String str = null;
+                    str.length();
+                }
                 Intent intent = new Intent(MainActivity.this,MessengerService.class);
                 Log.i("test","MessengerService  onClick ");
                 bindService(intent, new ServiceConnection() {
