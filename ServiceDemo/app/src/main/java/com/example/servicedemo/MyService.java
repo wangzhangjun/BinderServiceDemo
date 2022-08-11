@@ -26,16 +26,16 @@ public class MyService extends Service {
                 }
                 return 1;
             }
-//            else if(name.equals("dead")){
-//                handler.postDelayed(new Runnable() {  //这里要放到一个Runnable里面，要不然这个错误会返回到客户端，导致客户端crash
-//                    @Override
-//                    public void run() {
-//                    String str = null;
-//                    str.length();
-//                    }
-//                },100);
-//                return -1;
-//            }
+            else if(name.equals("dead")){
+                handler.postDelayed(new Runnable() {  //这里要放到一个Runnable里面，要不然这个错误会返回到客户端，导致客户端crash
+                    @Override
+                    public void run() {
+                    String str = null;
+                    str.length();
+                    }
+                },100);
+                return -1;
+            }
             else {
                 return  10;
             }
