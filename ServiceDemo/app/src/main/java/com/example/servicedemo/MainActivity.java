@@ -123,10 +123,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //获取系统注册服务的跨进程通信方式
-        BatteryManager manager = (BatteryManager) getSystemService(BATTERY_SERVICE);
+        BatteryManager manager = (BatteryManager)getSystemService(BATTERY_SERVICE);
         Log.i("zhjwang"," BATTERY_PROPERTY_CAPACITY "+manager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)+" BATTERY_PROPERTY_CHARGE_COUNTER "+manager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER)
                 + " BATTERY_PROPERTY_CURRENT_AVERAGE "+manager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_AVERAGE)
                 + " BATTERY_PROPERTY_CURRENT_NOW "+manager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW));
+
+
     }
     void sendMessageToServer() throws RemoteException {
         Message toServer = Message.obtain();
