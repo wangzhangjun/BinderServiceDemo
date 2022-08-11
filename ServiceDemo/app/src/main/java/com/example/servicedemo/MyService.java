@@ -18,7 +18,6 @@ public class MyService extends Service {
     }
     IChangeCallback mCallBack = null;
     IStudentInterface.Stub mBinder = new IStudentInterface.Stub() {
-
         @Override
         public int getStudentId(String name) throws RemoteException {
             if (name.equals( "helloworld")) {
@@ -26,7 +25,7 @@ public class MyService extends Service {
                     Log.i("test"," mCallBack changeData result = " + mCallBack.changeData(1111));
                 }
                 return 1;
-            }else if(name.equals("dead")){
+            } else if(name.equals("dead")){
                 handler.postDelayed(new Runnable() {  //这里要放到一个Runnable里面，要不然这个错误会返回到客户端，导致客户端crash
                     @Override
                     public void run() {
@@ -39,7 +38,6 @@ public class MyService extends Service {
                 return  10;
             }
         }
-
         @Override
         public void setCallback(IChangeCallback callback) throws RemoteException {
             mCallBack = callback;
@@ -50,7 +48,6 @@ public class MyService extends Service {
                 }
             },0);
         }
-
         @Override
         public String getConvertName(StudentInfo info) throws RemoteException {
             if (info!=null) {
@@ -59,14 +56,12 @@ public class MyService extends Service {
             }
             return null;
         }
-
         @Override
         public void getServiceStudentInfo(StudentInfo serviceInfo) throws RemoteException {
             Log.i("test"," getServiceStudentInfo out serviceInfo = " + serviceInfo);
             serviceInfo.id = "100";
             serviceInfo.name = "this is Service modify out";
         }
-
         @Override
         public void getServiceStudentInfoInOut(StudentInfo serviceInfo) throws RemoteException {
             Log.i("test"," getServiceStudentInfo inout serviceInfo = " + serviceInfo);
@@ -79,18 +74,15 @@ public class MyService extends Service {
         Log.i("test","MyService onCreate");
         super.onCreate();
     }
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i("test","MyService onStartCommand intent = " + intent );
         return super.onStartCommand(intent, flags, startId);
     }
-
     @Override
     public boolean onUnbind(Intent intent) {
         return super.onUnbind(intent);
     }
-
     @Override
     public void onDestroy() {
         Log.i("test","MyService onDestroy");
